@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <SearchResults :moviesProps="nominatedMovies"/>
+    <v-img v-if="nominatedMovies.length == 0" src="../../assets/EmptyNominationList.svg"></v-img>
+    <SearchResults v-on:RemoveNomination="removeNomination" :isNomination="true" :moviesProps="nominatedMovies"/>
   </v-container>
 </template>
 
@@ -21,6 +22,11 @@ import SearchResults from './SearchResults'
         ...mapGetters([
         'nominatedMovies',
         ]),
+    },
+    methods: {
+        removeNomination(value) {
+            this.$emit('RemoveNomination',value)
+        }
     }
   }
 </script>

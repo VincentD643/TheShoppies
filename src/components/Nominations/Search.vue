@@ -10,10 +10,10 @@
     <v-bottom-sheet inset persistent hide-overlay :value="showBottomSheet">
     </v-bottom-sheet>
     -->
-    <v-bottom-sheet v-model="sheet">
+    <v-bottom-sheet  height="70%" v-model="sheet">
         <v-sheet
             class="text-center"
-            height="200px"
+            height="700px"
         >
             <v-btn
             class="mt-6"
@@ -23,7 +23,7 @@
             >
             close
             </v-btn>
-            <NominationsList/>
+            <NominationsList v-on:RemoveNomination="removeNomination"/>
         </v-sheet>
     </v-bottom-sheet>
      <v-btn @click="sheet = !sheet" fab dark large color="primary" fixed right bottom>
@@ -58,16 +58,21 @@ import { debounce } from 'debounce'
         ...mapActions({
             getSearchResults: 'getSearchResults',
             addNominatedMovie: 'addNominatedMovie',
-            addWatchLaterMovie: 'addWatchLaterMovie'
+            addWatchLaterMovie: 'addWatchLaterMovie',
+            removeNominatedMovie: 'removeNominatedMovie'
         }),
         debounceSearch: debounce(function () {
             this.getSearchResults(this.searchTerm.trim())
         }, 500),
         addNomination(value) {
+            this.sheet = !this.sheet
             this.addNominatedMovie(value)
         },
         addWatchLater(value) {
             this.addWatchLaterMovie(value)
+        },
+        removeNomination(value) {
+            this.removeNominatedMovie(value)
         }
 
     },

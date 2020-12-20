@@ -21,7 +21,6 @@ export const getters = {
         return state.nominatedMovies
     }
 }
-//need to switch to vue.delete || vue.set
 export const mutations = {
     setMovieResults (state, results) {
         state.movieResults = results
@@ -31,13 +30,13 @@ export const mutations = {
     },
     addNominatedMovie(state, movie) {
         state.nominatedMovies.push(movie)
-        state.movieResults.slice(0, state.movieResults.findIndex(m => m.imdbID == movie.imdbID))
-        state.movieResultsHistory.slice(0, state.movieResultsHistory.findIndex(m => m.imdbID == movie.imdbID))
+        Vue.delete(state.movieResults, state.movieResults.findIndex(m => m.imdbID == movie.imdbID))
+        Vue.delete(state.movieResultsHistory, state.movieResultsHistory.findIndex(m => m.imdbID == movie.imdbID))
     },
     removeNominatedMovie(state, movie) {
         state.movieResults.push(movie)
         state.movieResultsHistory.push(movie)
-        state.nominatedMovies.slice(0, state.nominatedMovies.findIndex(m => m.imdbID == movie.imdbID))
+        Vue.delete(state.nominatedMovies, state.nominatedMovies.findIndex(m => m.imdbID == movie.imdbID))
     },
 
     addWatchLaterMovie(state, movie) {
@@ -45,7 +44,7 @@ export const mutations = {
     },
 
     removeWatchLaterMovie(state, movie) {
-        state.watchLaterMovies.slice(0, state.watchLaterMovies.findIndex(m => m.imdbID == movie.imdbID))
+        Vue.delete(state.watchLaterMovies, state.watchLaterMovies.findIndex(m => m.imdbID == movie.imdbID))
     }
     
 }
@@ -73,7 +72,11 @@ export const actions = {
     },
 
     addNominatedMovie({ commit }, movie) {
-      commit('addNominatedMovie', movie)
+      if (state.nominatedMovies.length == 5) {
+        commit('setError', "Your nomination list is full ! Please delete a nomination before adding a new one.")
+      } else {
+        commit('addNominatedMovie', movie)
+      }
     },
     addWatchLaterMovie( {commit }, movie) {
         commit('addWatchLaterMovie', movie)
