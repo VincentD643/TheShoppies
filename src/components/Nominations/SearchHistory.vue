@@ -42,10 +42,10 @@ import getSearchResults from './SearchResults'
             console.log(this.movieResultsHistory)
         },
         addWatchLater(movie) {
-            this.$emit('WatchLater', movie )
+            this.$emit('AddWatchLater', movie)
         },
         addNomination(movie) {
-            this.$emit('Nomination', movie)
+            this.$emit('AddNomination', movie)
         }
     }
   },

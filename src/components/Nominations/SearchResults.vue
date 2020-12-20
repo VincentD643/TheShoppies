@@ -2,7 +2,7 @@
   <v-container>
     <div>
         <v-row>
-            <v-col cols="12" sm="2" md="2" v-bind:key="movie.imdbID" v-for="movie in moviesProps" >
+            <v-col cols="12" sm="5" md="2" lg="2" v-bind:key="movie.imdbID" v-for="movie in moviesProps" >
                <v-card>
                 <v-list-item two-line>
                     <v-list-item-content>
@@ -23,7 +23,7 @@
                     </v-img>
                 </v-card-text>
                 <v-card-actions>
-                    <v-tooltip bottom>
+                    <v-tooltip v-if="!isNomination" bottom>
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
                                 @click="addNomination(movie)"
@@ -36,6 +36,20 @@
                             </v-btn>
                         </template>
                         <span>Add to Nominations</span>
+                    </v-tooltip>
+                    <v-tooltip v-else bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                @click="removeNomination(movie)"
+                                v-bind="attrs"
+                                v-on="on"
+                                icon
+                                color="pink"
+                                >
+                                <v-icon>mdi-star-minus</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Remove Nominations</span>
                     </v-tooltip>
                      <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">
@@ -63,7 +77,7 @@
 <script>
 export default {
     name: 'SearchHistory',
-    props: ['moviesProps'],
+    props: ['moviesProps', 'isNomination'],
     data() {
       return {
         
@@ -74,10 +88,13 @@ export default {
             console.log(this.movieResultsHistory)
         },
         addWatchLater(movie) {
-            this.$emit('WatchLater', movie )
+            this.$emit('AddWatchLater', movie )
         },
         addNomination(movie) {
-            this.$emit('Nomination', movie)
+            this.$emit('AddNomination', movie)
+        },
+        removeNomination(movie) {
+            this.$emit('RemoveNomination', movie)
         }
     }
   }

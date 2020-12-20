@@ -21,7 +21,7 @@
 import SearchHistory from './SearchHistory'
 import Search from './Search'
   export default {
-    name: 'Nominations',
+    name: 'NominationsTemplate',
     components: {
       SearchHistory,
       Search
