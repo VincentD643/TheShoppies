@@ -13,7 +13,16 @@ export default {
     })
   },
 
-  getMoviesWithTitleGenre(search) {
+  getMoviesWithTitleAndPageNumber(search, n) {
+    return Vue.http.get(`${baseUrl}s=${search}&page=${n}${key}`)
+    .then(response => response.json())
+    .catch(errorResponse => {
+      throw errorResponse.body.error
+    })
+  },
+
+
+  /*getMoviesWithTitleGenre(search) {
     return Vue.http.get(`${baseUrl}s=${search.title}&type=${search.type}${key}`)
     .then(response => response.json())
     .catch(errorResponse => {
@@ -27,5 +36,5 @@ export default {
     .catch(errorResponse => {
       throw errorResponse.body.error
     })
-  }
+  }*/
 }

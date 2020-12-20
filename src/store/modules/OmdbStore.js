@@ -8,7 +8,9 @@ export const state = {
     movieResults: [],
     movieResultsHistory: [],
     nominatedMovies: [],
-    watchLaterMovies: []
+    watchLaterMovies: [],
+    lastSearch: [],
+    nbOfPages: 0
 }
 export const getters = {
     movieResults (state) {
@@ -19,14 +21,36 @@ export const getters = {
     },
     nominatedMovies (state) {
         return state.nominatedMovies
+    },
+    nbOfPages (state) {
+        return state.nbOfPages
     }
 }
 export const mutations = {
-    setMovieResults (state, results) {
-        state.movieResults = results
+    setNbOfPages (state, n) {
+        state.nbOfPages = Math.ceil(n/10)
     },
+    setMovieResults (state, results) {
+        if (results) {
+            state.movieResults = results
+             //I need a copy of the search because I want to know if i need to add back the movie to the search when removing nomination or if its a new search
+            state.lastSearch = JSON.parse(JSON.stringify(results))
+        } else {
+            state.movieResults = []
+            state.lastSearch = []
+        }
+       
+    },
+
+    addMovieResults (state, results) {
+        state.movieResults.push.apply(state.movieResults, results)
+    },
+
     addMovieResultsToHistory (state, results) {
         state.movieResultsHistory.push.apply(state.movieResultsHistory, results)
+        //remove duplicates in case we do the same search multiple time
+        let uniq = new Set(state.movieResultsHistory.map(e => JSON.stringify(e)));
+        state.movieResultsHistory = Array.from(uniq).map(e => JSON.parse(e));
     },
     addNominatedMovie(state, movie) {
         state.nominatedMovies.push(movie)
@@ -34,7 +58,10 @@ export const mutations = {
         Vue.delete(state.movieResultsHistory, state.movieResultsHistory.findIndex(m => m.imdbID == movie.imdbID))
     },
     removeNominatedMovie(state, movie) {
-        state.movieResults.push(movie)
+        console.log(state.lastSearch)
+        if (state.lastSearch.findIndex(m => m.imdbID == movie.imdbID) != -1) {
+            state.movieResults.push(movie)
+        }
         state.movieResultsHistory.push(movie)
         Vue.delete(state.nominatedMovies, state.nominatedMovies.findIndex(m => m.imdbID == movie.imdbID))
     },
@@ -54,8 +81,9 @@ export const actions = {
   getSearchResults ({ commit }, payload) {
     commit('setLoading', true)
     commit('setError', false)
-    return OmdbApi.getMoviesWithTitle(payload)
+    return OmdbApi.getMoviesWithTitle(payload.title.trim())
     .then(results => {
+        commit('setNbOfPages', results.totalResults )
         commit('setMovieResults', results.Search)
         commit('addMovieResultsToHistory', results.Search)
     })
@@ -80,6 +108,23 @@ export const actions = {
     },
     addWatchLaterMovie( {commit }, movie) {
         commit('addWatchLaterMovie', movie)
+    },
+
+    getSearchResultsWithPageNumber({ commit }, payload) {
+        console.log('test')
+        commit('setLoading', true)
+        commit('setError', false)
+        return OmdbApi.getMoviesWithTitleAndPageNumber(payload.title.trim(), payload.page)
+        .then(results => {
+            commit('addMovieResults', results.Search)
+            commit('addMovieResultsToHistory', results.Search)
+        })
+        .catch(error => {
+            commit('setError', error)
+        })
+        .finally(() => {
+            commit('setLoading', false)
+        })
     }
 }
 
