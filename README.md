@@ -1,4 +1,4 @@
-# moviegallery
+# The Shoppies
 
 ## Project setup
 ```
