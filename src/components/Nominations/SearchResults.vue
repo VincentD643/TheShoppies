@@ -56,20 +56,6 @@
                         </template>
                         <span>Remove Nominations</span>
                     </v-tooltip>
-                     <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                                @click="addWatchLater(movie)"
-                                v-bind="attrs"
-                                v-on="on"
-                                icon
-                                color="pink"
-                                >
-                                <v-icon>mdi-plus-circle</v-icon>
-                            </v-btn>
-                        </template>
-                        <span>Add to Watch Later</span>
-                    </v-tooltip>
                 </v-card-actions>
             </v-card>
             </v-col>
@@ -88,9 +74,6 @@ export default {
       }
     },
     methods: {
-        addWatchLater(movie) {
-            this.$emit('AddWatchLater', movie )
-        },
         addNomination(movie) {
             this.$emit('AddNomination', movie)
         },

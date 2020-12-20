@@ -27,7 +27,7 @@
       >
         close
       </v-btn>
-      <NominationsList v-on:RemoveNomination="removeNomination"/>
+      <NominationsList :nominatedMovies="nominatedMovies" v-on:RemoveNomination="removeNomination"/>
       </v-sheet>
     </v-bottom-sheet>
     <v-btn @click="sheet = !sheet" fab dark large color="primary" fixed right bottom>
@@ -53,19 +53,23 @@ import Search from './Search'
         sheet: false
       }
     },
-    
+    created: function () {
+      let tempLocalStorage = localStorage.getItem('nominatedMovies')
+      if (tempLocalStorage.length > 0) {
+        this.setNominatedMovies(JSON.parse(tempLocalStorage))
+      }
+    },
     methods: {
+    
       ...mapActions({
         addNominatedMovie: 'addNominatedMovie',
-        addWatchLaterMovie: 'addWatchLaterMovie',
-        removeNominatedMovie: 'removeNominatedMovie'
+        removeNominatedMovie: 'removeNominatedMovie',
+        setNominatedMovies: 'setNominatedMovies'
       }),
       addNomination(value) {
         this.sheet = !this.sheet
         this.addNominatedMovie(value)
-      },
-      addWatchLater(value) {
-        this.addWatchLaterMovie(value)
+        localStorage.setItem('nominatedMovies', JSON.stringify(this.nominatedMovies))
       },
       removeNomination(value) {
         this.removeNominatedMovie(value)
@@ -75,6 +79,7 @@ import Search from './Search'
       ...mapGetters([
         'movieResultsHistory',
         'movieResults',
+        'nominatedMovies',
         'nbOfPages'
       ])
     },
