@@ -19,6 +19,7 @@
         class="text-center"
          height="700px"
       >
+      <NominationsList :nominatedMovies="nominatedMovies" v-on:RemoveNomination="removeNomination" v-on:RemoveAllNominations="removeAllNominations"/>
       <v-btn
         class="mt-6"
         text
@@ -27,12 +28,17 @@
       >
         close
       </v-btn>
-      <NominationsList :nominatedMovies="nominatedMovies" v-on:RemoveNomination="removeNomination"/>
       </v-sheet>
     </v-bottom-sheet>
-    <v-btn @click="sheet = !sheet" fab dark large color="primary" fixed right bottom>
-        <v-icon dark>mdi-star</v-icon>
-    </v-btn>
+    <v-tooltip top>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn v-on="on" v-bind="attrs" @click="sheet = !sheet" fab dark large color="primary" fixed right bottom>
+            <v-icon dark>mdi-star</v-icon>
+        </v-btn>
+      </template>
+      <span> Your nominations</span>
+    </v-tooltip>
+    
   </v-container>
 </template>
 
@@ -54,17 +60,16 @@ import Search from './Search'
       }
     },
     created: function () {
-      let tempLocalStorage = localStorage.getItem('nominatedMovies')
-      if (tempLocalStorage.length > 0) {
-        this.setNominatedMovies(JSON.parse(tempLocalStorage))
+      if (this.nominatedMovies.length > 0) {
+        this.sheet = !this.sheet
       }
     },
     methods: {
-    
       ...mapActions({
         addNominatedMovie: 'addNominatedMovie',
         removeNominatedMovie: 'removeNominatedMovie',
-        setNominatedMovies: 'setNominatedMovies'
+        setNominatedMovies: 'setNominatedMovie',
+        removeNominations: 'removeNominations'
       }),
       addNomination(value) {
         this.sheet = !this.sheet
@@ -73,6 +78,11 @@ import Search from './Search'
       },
       removeNomination(value) {
         this.removeNominatedMovie(value)
+        localStorage.setItem('nominatedMovies', JSON.stringify(this.nominatedMovies))
+      },
+      removeAllNominations() {
+        this.removeNominations()
+        localStorage.setItem('nominatedMovies', JSON.stringify(this.nominatedMovies))
       }
     },
     computed: {
@@ -85,3 +95,8 @@ import Search from './Search'
     },
   }
 </script>
+<style>
+.paddingClose{
+  padding-bottom:20px;
+}
+</style>

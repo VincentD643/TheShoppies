@@ -28,7 +28,7 @@
 
 <script>
 import Drawer from './components/menus/Drawer';
-
+import { mapActions } from 'vuex'
 export default {
   name: 'App',
   components: {
@@ -37,7 +37,26 @@ export default {
   data: () => ({
     //
   }),
+  created: function () {
+    this.localStorage()
+    this.sharing()
+  },
   methods: {
+     ...mapActions({
+        setNominatedMovies: 'setNominatedMovies'
+      }),
+     localStorage() {
+        let tempLocalStorage = localStorage.getItem('nominatedMovies')
+        if (tempLocalStorage) {
+          this.setNominatedMovies(JSON.parse(tempLocalStorage))
+        }
+      },
+      sharing() {
+        if (this.$route.params.nominationsList) {
+          let nominatedMoviesJson = atob(this.$route.params.nominationsList)
+          this.setNominatedMovies(JSON.parse(nominatedMoviesJson))
+        }
+      },
   }
 };
 </script>

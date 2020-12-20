@@ -63,6 +63,17 @@ export const mutations = {
         Vue.delete(state.nominatedMovies, state.nominatedMovies.findIndex(m => m.imdbID == movie.imdbID))
     },
 
+    removeNominations(state) {
+        for(let movie in state.nominatedMovies) {
+            if (state.lastSearch.findIndex(m => m.imdbID == movie.imdbID) != -1) {
+                state.movieResults.push(movie)
+            }
+        }
+        state.movieResultsHistory.push.apply(state.movieResultsHistory, state.nominatedMovies)
+        state.nominatedMovies = []
+
+    },
+
     setNominatedMovies(state, movies) {
         state.nominatedMovies = movies
     }
@@ -107,6 +118,10 @@ export const actions = {
 
     removeNominatedMovie({ commit }, movie) {
       commit('removeNominatedMovie', movie)
+    },
+
+    removeNominations({ commit }) {
+        commit('removeNominations')
     },
 
     addNominatedMovie({ commit }, movie) {
