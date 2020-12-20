@@ -6,9 +6,14 @@
                <v-card>
                 <v-list-item two-line>
                     <v-list-item-content>
-                        <v-list-item-title class="headline">
-                            {{movie.Title}}
-                        </v-list-item-title>
+                        <v-tooltip v-if="!isNomination" top>
+                            <template v-slot:activator="{ on, attrs }">
+                               <v-list-item-title v-on="on" v-bind="attrs" class="headline">
+                                    {{movie.Title}}
+                                </v-list-item-title>
+                            </template>
+                            <span> {{movie.Title}}</span>
+                        </v-tooltip>
                         <v-list-item-subtitle>{{movie.Type}}</v-list-item-subtitle>
                         <v-list-item-subtitle>{{movie.Year}}</v-list-item-subtitle>
                     </v-list-item-content>
@@ -80,13 +85,9 @@ export default {
     props: ['moviesProps', 'isNomination'],
     data() {
       return {
-        
       }
     },
     methods: {
-        created: function () {
-            console.log(this.movieResultsHistory)
-        },
         addWatchLater(movie) {
             this.$emit('AddWatchLater', movie )
         },

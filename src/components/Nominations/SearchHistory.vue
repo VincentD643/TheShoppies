@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div v-if="movieResultsHistory.length != 0">
-        <getSearchResults :moviesProps="movieResultsHistory"/>
+        <SearchResults v-on:AddNomination="addNomination" :moviesProps="movieResultsHistory" />
     </div>
     <div v-else>
         <v-img 
@@ -21,34 +21,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import getSearchResults from './SearchResults'
-  export default {
+import SearchResults from './SearchResults'
+    export default {
     name: 'SearchHistory',
+    props: ['movieResultsHistory'],
     components: {
-        getSearchResults
+        SearchResults
     },
     data() {
       return {
-        
       }
     },
-    computed: {
-    ...mapGetters([
-      'movieResultsHistory',
-    ]),
-    methods: {
-        created: function () {
-            console.log(this.movieResultsHistory)
+    methods:{
+        addNomination(value) {
+          this.$emit('AddNomination', value)
         },
-        addWatchLater(movie) {
-            this.$emit('AddWatchLater', movie)
-        },
-        addNomination(movie) {
-            this.$emit('AddNomination', movie)
+        addWatchLater(value) {
+          this.$emit('AddWatchLater', value)
         }
     }
-  },
   }
 </script>
 <style>
