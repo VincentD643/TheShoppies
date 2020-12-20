@@ -5,22 +5,48 @@
         label="Search"
         clearable
     ></v-text-field>
-    <SearchResults :moviesProps="movieResults" />
+    <SearchResults v-on:AddNomination="addNomination" :moviesProps="movieResults" />
+    <!--
+    <v-bottom-sheet inset persistent hide-overlay :value="showBottomSheet">
+    </v-bottom-sheet>
+    -->
+    <v-bottom-sheet v-model="sheet">
+        <v-sheet
+            class="text-center"
+            height="200px"
+        >
+            <v-btn
+            class="mt-6"
+            text
+            color="red"
+            @click="sheet = !sheet"
+            >
+            close
+            </v-btn>
+            <NominationsList/>
+        </v-sheet>
+    </v-bottom-sheet>
+     <v-btn @click="sheet = !sheet" fab dark large color="primary" fixed right bottom>
+        <v-icon dark>mdi-star</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import SearchResults from './SearchResults'
+import NominationsList from './NominationList'
 import { debounce } from 'debounce'
   export default {
     name: 'Search',
     components: {
-        SearchResults
+        SearchResults,
+        NominationsList
     },
     data() {
       return {
-        searchTerm: ""
+        searchTerm: "",
+        sheet: false,
       }
     },
     watch: {
@@ -30,11 +56,20 @@ import { debounce } from 'debounce'
     },
     methods:{
         ...mapActions({
-            getSearchResults: 'getSearchResults'
+            getSearchResults: 'getSearchResults',
+            addNominatedMovie: 'addNominatedMovie',
+            addWatchLaterMovie: 'addWatchLaterMovie'
         }),
         debounceSearch: debounce(function () {
-            this.getSearchResults(this.searchTerm)
+            this.getSearchResults(this.searchTerm.trim())
         }, 500),
+        addNomination(value) {
+            this.addNominatedMovie(value)
+        },
+        addWatchLater(value) {
+            this.addWatchLaterMovie(value)
+        }
+
     },
     computed: {
     ...mapGetters([
