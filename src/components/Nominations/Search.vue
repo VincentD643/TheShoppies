@@ -20,7 +20,7 @@
         </v-img>
 
     </div>
-    <v-btn class="loadMoreButton" @click="loadMoreResults()" v-if="currentPage < nbOfPages" >Load More</v-btn>
+    <v-btn class="loadMoreButton" @click="loadMoreResults()" v-if="(currentPage < nbOfPages) && searchTerm != ''" >Load More</v-btn>
   </v-container>
 </template>
 

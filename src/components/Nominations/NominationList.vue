@@ -77,11 +77,11 @@ import SearchResults from './SearchResults'
     name: 'NominationsList',
     props: ['nominatedMovies'],
     components: {
-      SearchResults
+      SearchResults,
     },
     data() {
       return {
-        
+        fab: false
       }
     },
     methods: {
