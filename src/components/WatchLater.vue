@@ -1,12 +1,12 @@
 <template>
   <v-container>
-  <p>placeholder</p>
+  <p>Watch Later</p>
   </v-container>
 </template>
 
 <script>
   export default {
-    name: 'Home',
+    name: 'WatchLater',
     data() {
       return {
         
