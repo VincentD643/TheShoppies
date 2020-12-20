@@ -35,9 +35,6 @@ import SearchResults from './SearchResults'
     methods:{
         addNomination(value) {
           this.$emit('AddNomination', value)
-        },
-        addWatchLater(value) {
-          this.$emit('AddWatchLater', value)
         }
     }
   }

@@ -8,7 +8,6 @@ export const state = {
     movieResults: [],
     movieResultsHistory: [],
     nominatedMovies: [],
-    watchLaterMovies: [],
     lastSearch: [],
     nbOfPages: 0
 }
@@ -24,7 +23,7 @@ export const getters = {
     },
     nbOfPages (state) {
         return state.nbOfPages
-    }
+    },
 }
 export const mutations = {
     setNbOfPages (state, n) {
@@ -39,7 +38,6 @@ export const mutations = {
             state.movieResults = []
             state.lastSearch = []
         }
-       
     },
 
     addMovieResults (state, results) {
@@ -58,7 +56,6 @@ export const mutations = {
         Vue.delete(state.movieResultsHistory, state.movieResultsHistory.findIndex(m => m.imdbID == movie.imdbID))
     },
     removeNominatedMovie(state, movie) {
-        console.log(state.lastSearch)
         if (state.lastSearch.findIndex(m => m.imdbID == movie.imdbID) != -1) {
             state.movieResults.push(movie)
         }
@@ -66,12 +63,8 @@ export const mutations = {
         Vue.delete(state.nominatedMovies, state.nominatedMovies.findIndex(m => m.imdbID == movie.imdbID))
     },
 
-    addWatchLaterMovie(state, movie) {
-        state.watchLaterMovies.push(movie)
-    },
-
-    removeWatchLaterMovie(state, movie) {
-        Vue.delete(state.watchLaterMovies, state.watchLaterMovies.findIndex(m => m.imdbID == movie.imdbID))
+    setNominatedMovies(state, movies) {
+        state.nominatedMovies = movies
     }
     
 }
@@ -95,21 +88,6 @@ export const actions = {
         })
     },
 
-    removeNominatedMovie({ commit }, movie) {
-      commit('removeNominatedMovie', movie)
-    },
-
-    addNominatedMovie({ commit }, movie) {
-      if (state.nominatedMovies.length == 5) {
-        commit('setError', "Your nomination list is full ! Please delete a nomination before adding a new one.")
-      } else {
-        commit('addNominatedMovie', movie)
-      }
-    },
-    addWatchLaterMovie( {commit }, movie) {
-        commit('addWatchLaterMovie', movie)
-    },
-
     getSearchResultsWithPageNumber({ commit }, payload) {
         console.log('test')
         commit('setLoading', true)
@@ -125,6 +103,22 @@ export const actions = {
         .finally(() => {
             commit('setLoading', false)
         })
+    },
+
+    removeNominatedMovie({ commit }, movie) {
+      commit('removeNominatedMovie', movie)
+    },
+
+    addNominatedMovie({ commit }, movie) {
+      if (state.nominatedMovies.length == 5) {
+        commit('setError', "Your nomination list is full ! Please delete a nomination before adding a new one.")
+      } else {
+        commit('addNominatedMovie', movie)
+      }
+    },
+
+    setNominatedMovies( {commit }, movies) {
+        commit('setNominatedMovies', movies)
     }
 }
 

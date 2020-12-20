@@ -31,8 +31,7 @@ export default {
       locked: false,
       items: [
         { id: 1, title: 'Home', icon: 'mdi-home', link: 'Home' },
-        { id: 2, title: 'Nominations', icon: 'mdi-playlist-star', link: 'Nominations' },
-        { id: 3, title: 'Watch Later', icon: 'mdi-playlist-play', link: 'WatchLater' }
+        { id: 2, title: 'Nominations', icon: 'mdi-playlist-star', link: 'Nominations' }
       ]
     }
   },

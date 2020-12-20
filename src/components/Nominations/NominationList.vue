@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import SearchResults from './SearchResults'
   export default {
     name: 'NominationsList',
+    props: ['nominatedMovies'],
     components: {
       SearchResults
     },
@@ -17,11 +17,6 @@ import SearchResults from './SearchResults'
       return {
         
       }
-    },
-    computed: {
-        ...mapGetters([
-        'nominatedMovies',
-        ]),
     },
     methods: {
         removeNomination(value) {

@@ -34,9 +34,10 @@ export default {
   components: {
     Drawer
   },
-
   data: () => ({
     //
   }),
+  methods: {
+  }
 };
 </script>
