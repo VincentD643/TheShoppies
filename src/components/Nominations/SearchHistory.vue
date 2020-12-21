@@ -3,16 +3,16 @@
     <div v-if="movieResultsHistory.length != 0">
         <SearchResults v-on:AddNomination="addNomination" :moviesProps="movieResultsHistory" />
     </div>
-    <div v-else>
+    <div class="centerImagesHistory" v-else>
         <v-img 
             src="../../assets/undraw_empty_xct9.svg"  
-            max-height="75%"
-            max-width="100%">
+            max-height="60%"
+            max-width="70%">
         </v-img>
         <v-img
             src="../../assets/SearchHistoryIsEmpty.svg"  
             max-height="75%"
-            max-width="100%">
+            max-width="80%">
         </v-img>
 
     </div>
@@ -41,13 +41,8 @@ import SearchResults from './SearchResults'
 </script>
 <style>
 
-.historyCenter{
-  margin: auto;
-  width: 25%;
+.centerImagesHistory{
+  padding-left: 25%;
+  padding-top: 10%;
 }
-
-.imageSize{
-    min-height: 400px;
-}
-
 </style>

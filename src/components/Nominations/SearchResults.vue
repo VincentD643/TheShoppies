@@ -3,7 +3,7 @@
     <div>
         <v-row>
             <v-col cols="12" sm="5" md="2" lg="2" v-bind:key="movie.imdbID" v-for="movie in moviesProps" >
-               <v-card>
+               <v-card elevation="10" shaped>
                 <v-list-item two-line>
                     <v-list-item-content>
                         <v-tooltip v-if="!isNomination" top>

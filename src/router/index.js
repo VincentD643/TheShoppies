@@ -13,9 +13,10 @@ export default new Router({
             component: Home,
         },
         {
-            path: '/Nominations',
+            path: '/Nominations/:nominationsList?',
             name: 'Nominations',
             component: Nominations,
+            props: true
         }
     ]
 })
