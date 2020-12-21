@@ -92,7 +92,7 @@ export const actions = {
         commit('addMovieResultsToHistory', results.Search)
     })
     .catch(error => {
-        commit('setError', error)
+        commit('setError', {message: error })
     })
     .finally(() => {
         commit('setLoading', false)
@@ -108,7 +108,7 @@ export const actions = {
             commit('addMovieResultsToHistory', results.Search)
         })
         .catch(error => {
-            commit('setError', error)
+            commit('setError', { message: error })
         })
         .finally(() => {
             commit('setLoading', false)
