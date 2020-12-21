@@ -19,6 +19,8 @@
           <TheSuccessSnackbar/>-->
         </v-container>
         <Drawer/>
+        <SnackbarSuccess/>
+        <SnackbarFailure/>
       </v-content>
       <!--<TheLoadingDialog/>-->
 
@@ -28,11 +30,15 @@
 
 <script>
 import Drawer from './components/menus/Drawer';
+import SnackbarSuccess from './components/notifications/SnackbarSuccess';
+import SnackbarFailure from './components/notifications/SnackbarFailure';
 import { mapActions } from 'vuex'
 export default {
   name: 'App',
   components: {
-    Drawer
+    Drawer,
+    SnackbarSuccess,
+    SnackbarFailure
   },
   data: () => ({
     //

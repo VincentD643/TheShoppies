@@ -57,6 +57,13 @@ export const mutations = {
 }
 
 export const actions = {
+  setSuccess({ commit }, message) {
+    commit('setSuccess', message)
+  },
+
+  setError({ commit }, message) {
+    commit('setError', message)
+  }
 }
 
 export default new Vuex.Store({

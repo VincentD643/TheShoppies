@@ -11,7 +11,6 @@
       bottom
       direction="top"
       transition="scale-transition"
-      :open-on-hover="hover"
     >
       <template v-slot:activator>
         <v-tooltip left>
@@ -72,6 +71,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import SearchResults from './SearchResults'
   export default {
     name: 'NominationsList',
@@ -85,6 +85,10 @@ import SearchResults from './SearchResults'
       }
     },
     methods: {
+        ...mapActions({
+           setSuccess: 'setSuccess',
+           setError: 'setError'
+        }),
         removeNomination(value) {
             this.$emit('RemoveNomination',value)
         },
@@ -96,10 +100,11 @@ import SearchResults from './SearchResults'
           //console.log(location.protocol + '//' + location.hostname) might need this en prod
       
           let base64 = location.protocol + '//' + location.host + '/Nominations/' + btoa(unescape(encodeURIComponent(nominatedMoviesJson)))
+          var that = this
           navigator.clipboard.writeText(base64).then(function() {
-            console.log('copy success')
+            that.setSuccess({ message: 'Your nomination list was copied to clipboard !' })
           }, function() {
-            console.log('copy failed')
+            that.setError({ message: 'Your nomination list failed to copy. Please try again.' })
           });
           
         }

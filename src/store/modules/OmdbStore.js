@@ -100,7 +100,6 @@ export const actions = {
     },
 
     getSearchResultsWithPageNumber({ commit }, payload) {
-        console.log('test')
         commit('setLoading', true)
         commit('setError', false)
         return OmdbApi.getMoviesWithTitleAndPageNumber(payload.title.trim(), payload.page)
@@ -118,17 +117,20 @@ export const actions = {
 
     removeNominatedMovie({ commit }, movie) {
       commit('removeNominatedMovie', movie)
+      commit('setSuccess', { message: movie.Title + ' was removed from your nomination list'})
     },
 
     removeNominations({ commit }) {
         commit('removeNominations')
+        commit('setSuccess', { message: 'All movies were removed from your nomination list'})
     },
 
     addNominatedMovie({ commit }, movie) {
       if (state.nominatedMovies.length == 5) {
-        commit('setError', "Your nomination list is full ! Please delete a nomination before adding a new one.")
+        commit('setError', { message: 'Your nomination list is full ! Please delete a nomination before adding a new one.' })
       } else {
         commit('addNominatedMovie', movie)
+        commit('setSuccess', { message: movie.Title + ' was added to your nomination list'})
       }
     },
 
