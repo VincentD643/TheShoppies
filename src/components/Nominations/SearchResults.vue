@@ -6,7 +6,7 @@
                <v-card elevation="10" shaped>
                 <v-list-item two-line>
                     <v-list-item-content>
-                        <v-tooltip v-if="!isNomination" top>
+                        <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
                                <v-list-item-title v-on="on" v-bind="attrs" class="headline">
                                     {{movie.Title}}
@@ -19,13 +19,22 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-card-text class="imageSize">
-                    <v-img v-if="movie.Poster != 'N/A'"
-                        height="350px"
-                        width="250px"
-                        :src="movie.Poster"
-                    ></v-img>
-                    <v-img v-else src="../../assets/Missing_Poster.svg">
-                    </v-img>
+                    <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-img 
+                                v-if="movie.Poster != 'N/A'"
+                                v-on="on" 
+                                v-bind="attrs" 
+                                height="350px"
+                                width="250px"
+                                :src="movie.Poster"
+                            ></v-img>
+                            <v-img v-else src="../../assets/Missing_Poster.svg">
+                            </v-img>
+                            </template>
+                            <span> {{movie.Title}}</span>
+                        </v-tooltip>
+                    
                 </v-card-text>
                 <v-card-actions>
                     <v-tooltip v-if="!isNomination" bottom>
